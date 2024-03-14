@@ -19,25 +19,28 @@
             </RadzenColumn>
         </RadzenRow>
     </RadzenBody>
-    <RadzenSidebar Expanded="@sidebarExpanded" style="z-index: 2">7
+    <RadzenSidebar Expanded="@sidebarExpanded" style="z-index: 2">
         <RadzenStack AlignItems="Radzen.AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
             <RadzenImage Path="images/logo.png"  style="width: 48px; height: 48px;" AlternateText="Application logo"></RadzenImage>
             <RadzenText Text="HardwareManagement" TextStyle="Radzen.Blazor.TextStyle.Subtitle1" class="rz-mb-0" style="color: var(--rz-sidebar-color);" />
         </RadzenStack>
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="DashBoard" Path="" />
-            <RadzenPanelMenuItem Text="Architectures" Path="architectures" />
-            <RadzenPanelMenuItem Text="AvailabilityStatuses" Path="availability-statuses" />
-            <RadzenPanelMenuItem Text="MicroControllerDerivatives" Path="micro-controller-derivatives" />
-            <RadzenPanelMenuItem Text="MicroControllers" Path="micro-controllers" />
-            <RadzenPanelMenuItem Text="MicroControllerSubDerivatives" Path="micro-controller-sub-derivatives" />
-            <RadzenPanelMenuItem Text="SiliconVendors" Path="silicon-vendors" />
-            <RadzenPanelMenuItem Text="AutosarVersions" Path="autosar-versions" />
-            <RadzenPanelMenuItem Text="CompilerVendors" Path="compiler-vendors" />
-            <RadzenPanelMenuItem Text="CompilerVersions" Path="compiler-versions" />
-            <RadzenPanelMenuItem Text="TresosAcgs" Path="tresos-acgs" />
-            <RadzenPanelMenuItem Text="TresosAutoCores" Path="tresos-auto-cores" />
-            <RadzenPanelMenuItem Text="TresosSafetyOs" Path="tresos-safety-os" />
+            <RadzenPanelMenuItem Text="DashBoard" Path="" Icon="dashboard" />
+            <RadzenPanelMenuItem Text="TresosAcgs" Path="tresos-acgs" Icon="list" />
+            <RadzenPanelMenuItem Text="TresosAutoCores" Path="tresos-auto-cores" Icon="list" />
+            <RadzenPanelMenuItem Text="TresosSafetyOs" Path="tresos-safety-os" Icon="list" />
+            <RadzenPanelMenuItem Text="MicroControllers" Path="micro-controllers" Icon="list" />
+            <RadzenPanelMenuItem Text="MicroControllerDerivatives" Path="micro-controller-derivatives" Icon="list" />
+            <RadzenPanelMenuItem Text="MicroControllerSubDerivatives" Path="micro-controller-sub-derivatives" Icon="list" />
+            <RadzenPanelMenuItem Text="SiliconVendors" Path="silicon-vendors" Icon="list" />
+            <RadzenPanelMenuItem Text="Data Management" Icon="auto_awesome">
+                <RadzenPanelMenuItem Text="AutosarVersions" Path="autosar-versions" Icon="list" />
+                <RadzenPanelMenuItem Text="CompilerVendors" Path="compiler-vendors" Icon="list" />
+                <RadzenPanelMenuItem Text="CompilerVersions" Path="compiler-versions" Icon="list" />
+                <RadzenPanelMenuItem Text="Architectures" Path="architectures" Icon="list" />
+                <RadzenPanelMenuItem Text="AvailabilityStatuses" Path="availability-statuses" Icon="list" />
+            </RadzenPanelMenuItem>
+
         </RadzenPanelMenu>
         <RadzenStack AlignItems="Radzen.AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
             <RadzenText Text="HardwareManagement v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />

@@ -3,30 +3,69 @@
 
 
 
-<div class="container">
+@* <div class="container">
     <div class="row">
         <div class="col-sm-12 col-lg-6 offset-lg-3 my-5">
-            <RadzenCard class="w-100 mb-4" >
-                <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
-                <RadzenLabel Text="Show Data Labels" Component="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+ *@
+            <RadzenStack Gap="1rem" Style="position: relative">
+            <RadzenRow>
+                <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+                    <RadzenCard Style="position: relative;">
+                        <RadzenText TextStyle="TextStyle.H6">Silicon Vendors #</RadzenText>
+                        <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success">@SiliconVendorCount</RadzenText>
+                    </RadzenCard>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+                    <RadzenCard Style="position: relative;">
+                <RadzenText TextStyle="TextStyle.H6">Microcontroller #</RadzenText>
+                    <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger">@MicrocontrollerCount</RadzenText>
+                    </RadzenCard>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+                    <RadzenCard Style="position: relative;">
+                <RadzenText TextStyle="TextStyle.H6">Microcontroller Derivative #</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success">@MicrocontrollerDerivativeCount</RadzenText>
+                    </RadzenCard>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+                    <RadzenCard>
+                <RadzenText TextStyle="TextStyle.H6">Microcontroller SubDerivative #</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger">@MicrocontrollerSubDerivativeCount</RadzenText>
+                    </RadzenCard>
+                </RadzenColumn>
+            </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="4">
+            <RadzenCard Style="height: 280px">
+                <RadzenText TextStyle="TextStyle.H6">Tresos ACG</RadzenText>
+                <RadzenChart Style="width: 100%; height: 200px">
+                    @* <RadzenDonutSeries Data=@labelGroups CategoryProperty="Label" ValueProperty="Count" Title="Issues" Fills=@labelColors /> *@
+                </RadzenChart>
             </RadzenCard>
-            <RadzenChart>
-                <RadzenDonutSeries Data="@revenue" CategoryProperty="Quarter" ValueProperty="Revenue" TotalAngle="180" StartAngle="180">
-                    <ChildContent>
-                        <RadzenSeriesDataLabels Visible="@showDataLabels" />
-                    </ChildContent>
-                    <TitleTemplate>
-                        <div class="rz-donut-content">
-                            <div>Revenue</div>
-                            <div>for 2020</div>
-                        </div>
-                    </TitleTemplate>
-                </RadzenDonutSeries>
-            </RadzenChart>
-        </div>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="4">
+            <RadzenCard Style="height: 280px">
+                <RadzenText TextStyle="TextStyle.H6">Tresos AutoCors</RadzenText>
+                <RadzenChart Style="width: 100%; height: 200px">
+
+                </RadzenChart>
+            </RadzenCard>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="4">
+            <RadzenCard Style="height: 280px">
+                <RadzenText TextStyle="TextStyle.H6">Tresos Safety OS</RadzenText>
+                <div Class="rz-text-align-center">
+                    
+                </div>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@*         </div>
     </div>
 </div>
-
+ *@
 @* <RadzenRow Gap="5" RowGap="5">
     <RadzenColumn Size="12">
         <RadzenText Text="Welcome to your new app" TextStyle="Radzen.Blazor.TextStyle.DisplayH2" TagName="Radzen.Blazor.TagName.Auto"></RadzenText>
@@ -55,4 +94,8 @@
         </RadzenCard>
     </RadzenColumn>
 </RadzenRow> *@
+
+
+
+
 

@@ -1,4 +1,5 @@
 using System.Net.Http;
+using HardwareManagement.Server.Models.FocusDB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -32,38 +33,46 @@ namespace HardwareManagement.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
+        [Inject]
+        public FocusDBService FocusDBService { get; set; }
 
+        protected int MicrocontrollerCount;
+        protected int SiliconVendorCount;
+        protected int MicrocontrollerDerivativeCount;
+        protected int MicrocontrollerSubDerivativeCount;
+
+        protected IEnumerable<HardwareManagement.Server.Models.FocusDB.MicroController> microControllers;
+        protected string search;
 
         bool showDataLabels = false;
 
-        class DataItem
+        protected override async Task OnInitializedAsync()
         {
-            public string Quarter { get; set; }
-            public double Revenue { get; set; }
+            await Grid0LoadData();
         }
 
-        DataItem[] revenue = new DataItem[] {
-        new DataItem
+        protected async Task Grid0LoadData()
         {
-        Quarter = "Q1",
-        Revenue = 30000
-        },
-        new DataItem
-        {
-        Quarter = "Q2",
-        Revenue = 40000
-        },
-        new DataItem
-        {
-        Quarter = "Q3",
-        Revenue = 50000
-        },
-        new DataItem
-        {
-        Quarter = "Q4",
-        Revenue = 80000
-        },
-        };
+            try
+            {
+                var result = await FocusDBService.GetMicroControllers();//.GetMicroControllers(filter: $@"({(string.IsNullOrEmpty(args.Filter) ? "true" : args.Filter)}", expand: "SiliconVendor,MicroControllerDerivative,MicroControllerSubDerivative,AvailabilityStatus", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null);
+                MicrocontrollerCount = result.Value.Count();
+
+                var result2 = await FocusDBService.GetSiliconVendors();
+                SiliconVendorCount = result2.Value.Count();
+
+                var result3 = await FocusDBService.GetMicroControllerDerivatives();
+                MicrocontrollerDerivativeCount = result3.Value.Count();
+                
+                var result4 = await FocusDBService.GetMicroControllerSubDerivatives();
+                MicrocontrollerSubDerivativeCount = result4.Value.Count();
+
+            }
+            catch (System.Exception ex)
+            {
+                NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load MicroControllers" });
+            }
+        }
 
     }
 }
