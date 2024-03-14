@@ -1,0 +1,27 @@
+@page "/add-micro-controller-derivative"
+
+<PageTitle>Add MicroControllerDerivative</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save MicroControllerDerivative</RadzenAlert>
+        <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative" Data="@microControllerDerivative" Visible="@(microControllerDerivative != null && canEdit)" Submit="@FormSubmit">
+          <RadzenStack>
+            <RadzenFormField Text="Micro Controller Derivatives Name" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@microControllerDerivative.MicroControllerDerivativesName" Name="MicroControllerDerivativesName" />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Silicon Vendor" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@siliconVendorsForSiliconVendorID" TextProperty="SiliconVendorName" ValueProperty="SiliconVendorID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@microControllerDerivative.SiliconVendorID" Name="SiliconVendorID"
+                        SelectedValue=@siliconVendorsForSiliconVendorIDValue Count=@siliconVendorsForSiliconVendorIDCount LoadData=@siliconVendorsForSiliconVendorIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+          </RadzenStack>
+          <RadzenStack style="margin-top:1rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+          </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+

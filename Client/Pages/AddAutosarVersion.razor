@@ -1,0 +1,28 @@
+@page "/add-autosar-version"
+
+<PageTitle>Add AutosarVersion</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AutosarVersion</RadzenAlert>
+        <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.AutosarVersion" Data="@autosarVersion" Visible="@(autosarVersion != null && canEdit)" Submit="@FormSubmit">
+          <RadzenStack>
+            <RadzenFormField Text="A U T O S A R Version I D" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@autosarVersion.AUTOSARVersionID" Name="AUTOSARVersionID" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="AUTOSARVersionID" Text="AUTOSARVersionID is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="A U T O S A R Version1" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@autosarVersion.AUTOSARVersion1" Name="AUTOSARVersion1" />
+              </ChildContent>
+            </RadzenFormField>
+          </RadzenStack>
+          <RadzenStack style="margin-top:1rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+          </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+

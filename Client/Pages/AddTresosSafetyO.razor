@@ -1,0 +1,73 @@
+@page "/add-tresos-safety-o"
+
+<PageTitle>Add TresosSafetyO</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save TresosSafetyO</RadzenAlert>
+        <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Data="@tresosSafetyO" Visible="@(tresosSafetyO != null && canEdit)" Submit="@FormSubmit">
+          <RadzenStack>
+            <RadzenFormField Text="Tresos Safety O S I D" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@tresosSafetyO.TresosSafetyOSID" Name="TresosSafetyOSID" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="TresosSafetyOSID" Text="TresosSafetyOSID is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="Micro Controller Sub Derivative" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@microControllerSubDerivativesForMicroControllerSubDerivativesID" TextProperty="MicroControllerSubDerivativesName" ValueProperty="MicroControllerSubDerivativesID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@tresosSafetyO.MicroControllerSubDerivativesID" Name="MicroControllerSubDerivativesID"
+                        SelectedValue=@microControllerSubDerivativesForMicroControllerSubDerivativesIDValue Count=@microControllerSubDerivativesForMicroControllerSubDerivativesIDCount LoadData=@microControllerSubDerivativesForMicroControllerSubDerivativesIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Architecture" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@architecturesForArchitectureID" TextProperty="Architecture1" ValueProperty="ArchitectureID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@tresosSafetyO.ArchitectureID" Name="ArchitectureID"
+                        SelectedValue=@architecturesForArchitectureIDValue Count=@architecturesForArchitectureIDCount LoadData=@architecturesForArchitectureIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Availability Status" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@availabilityStatusesForAvailabilityStatusID" TextProperty="AvailabilityStatusName" ValueProperty="AvailabilityStatusID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@tresosSafetyO.AvailabilityStatusID" Name="AvailabilityStatusID"
+                        SelectedValue=@availabilityStatusesForAvailabilityStatusIDValue Count=@availabilityStatusesForAvailabilityStatusIDCount LoadData=@availabilityStatusesForAvailabilityStatusIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Compiler Vendor" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@compilerVendorsForCompilerVendorID" TextProperty="CompilerVendorName" ValueProperty="CompilerVendorID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@tresosSafetyO.CompilerVendorID" Name="CompilerVendorID"
+                        SelectedValue=@compilerVendorsForCompilerVendorIDValue Count=@compilerVendorsForCompilerVendorIDCount LoadData=@compilerVendorsForCompilerVendorIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Compiler Version" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@compilerVersionsForCompilerVersionID" TextProperty="CompilerVersionName" ValueProperty="CompilerVersionID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@tresosSafetyO.CompilerVersionID" Name="CompilerVersionID"
+                        SelectedValue=@compilerVersionsForCompilerVersionIDValue Count=@compilerVersionsForCompilerVersionIDCount LoadData=@compilerVersionsForCompilerVersionIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Dev Drop" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@tresosSafetyO.DevDrop" Name="DevDrop" />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="R F D" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@tresosSafetyO.RFD" Name="RFD" />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="R F M" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@tresosSafetyO.RFM" Name="RFM" />
+              </ChildContent>
+            </RadzenFormField>
+          </RadzenStack>
+          <RadzenStack style="margin-top:1rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+          </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+
