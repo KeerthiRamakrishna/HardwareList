@@ -24,9 +24,9 @@ namespace HardwareManagement.Server.Models.FocusDB
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ArchitectureID { get; set; }
 
-        [Column("Architecture")]
+        [Column("ArchitectureName")]
         [ConcurrencyCheck]
-        public string Architecture1 { get; set; }
+        public string ArchitectureName { get; set; }
 
         public ICollection<TresosAcg> TresosAcgs { get; set; }
 

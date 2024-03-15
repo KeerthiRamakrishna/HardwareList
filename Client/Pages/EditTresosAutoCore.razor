@@ -31,7 +31,7 @@
             </RadzenFormField>
             <RadzenFormField Text="Architecture" Variant="Variant.Filled">
                   <ChildContent>
-                    <RadzenDropDownDataGrid Data="@architecturesForArchitectureID" TextProperty="Architecture1" ValueProperty="ArchitectureID" AllowClear=true
+                    <RadzenDropDownDataGrid Data="@architecturesForArchitectureID" TextProperty="ArchitectureName" ValueProperty="ArchitectureID" AllowClear=true
                           style="display: block; width: 100%" @bind-Value="@tresosAutoCore.ArchitectureID" Name="ArchitectureID"
                         SelectedValue=@architecturesForArchitectureIDValue Count=@architecturesForArchitectureIDCount LoadData=@architecturesForArchitectureIDLoadData />
               </ChildContent>

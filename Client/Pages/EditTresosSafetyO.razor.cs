@@ -86,7 +86,7 @@ namespace HardwareManagement.Client.Pages
         {
             try
             {
-                var result = await FocusDBService.GetArchitectures(top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null, filter: $"contains(Architecture1, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
+                var result = await FocusDBService.GetArchitectures(top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null, filter: $"contains(ArchitectureName, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
                 architecturesForArchitectureID = result.Value.AsODataEnumerable();
                 architecturesForArchitectureIDCount = result.Count;
 

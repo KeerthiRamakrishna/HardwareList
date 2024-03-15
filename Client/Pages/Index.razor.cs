@@ -46,6 +46,14 @@ namespace HardwareManagement.Client.Pages
 
         bool showDataLabels = false;
 
+        IEnumerable<ArchitectureGroupForTresosAutoCore> architectureGroupForTresosAutoCore;
+        class ArchitectureGroupForTresosAutoCore
+        {
+            public int CountOfSubDerevatives { get; set; }
+            public string ArchitectureName { get; set; }
+        }
+
+
         protected override async Task OnInitializedAsync()
         {
             await Grid0LoadData();
@@ -66,6 +74,13 @@ namespace HardwareManagement.Client.Pages
                 
                 var result4 = await FocusDBService.GetMicroControllerSubDerivatives();
                 MicrocontrollerSubDerivativeCount = result4.Value.Count();
+
+
+                var result5 = await FocusDBService.GetTresosAutoCores();
+                architectureGroupForTresosAutoCore = result5.Value.GroupBy(issue => issue.Architecture.ArchitectureName)
+                                   .Select(group => new ArchitectureGroupForTresosAutoCore { ArchitectureName = group.Key, CountOfSubDerevatives = group.Count() })
+                                   .OrderByDescending(group => group.CountOfSubDerevatives);
+
 
             }
             catch (System.Exception ex)

@@ -24,9 +24,9 @@ namespace HardwareManagement.Server.Models.FocusDB
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AUTOSARVersionID { get; set; }
 
-        [Column("AUTOSARVersion")]
+        [Column("AUTOSARVersionName")]
         [ConcurrencyCheck]
-        public string AUTOSARVersion1 { get; set; }
+        public string AUTOSARVersionName { get; set; }
 
         public ICollection<TresosAcg> TresosAcgs { get; set; }
 

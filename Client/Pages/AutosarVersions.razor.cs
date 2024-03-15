@@ -53,7 +53,7 @@ namespace HardwareManagement.Client.Pages
         {
             try
             {
-                var result = await FocusDBService.GetAutosarVersions(filter: $@"(contains(AUTOSARVersion1,""{search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
+                var result = await FocusDBService.GetAutosarVersions(filter: $@"(contains(AUTOSARVersionName,""{search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
                 autosarVersions = result.Value.AsODataEnumerable();
                 count = result.Count;
             }

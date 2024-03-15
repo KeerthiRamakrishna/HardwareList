@@ -14,7 +14,7 @@
             </RadzenFormField>
             <RadzenFormField Text="Architecture" Variant="Variant.Filled">
                   <ChildContent>
-                    <RadzenDropDownDataGrid Data="@architecturesForArchitectureID" TextProperty="Architecture1" ValueProperty="ArchitectureID" AllowClear=true
+                    <RadzenDropDownDataGrid Data="@architecturesForArchitectureID" TextProperty="ArchitectureName" ValueProperty="ArchitectureID" AllowClear=true
                           style="display: block; width: 100%" @bind-Value="@tresosAcg.ArchitectureID" Name="ArchitectureID"
                         SelectedValue=@architecturesForArchitectureIDValue Count=@architecturesForArchitectureIDCount LoadData=@architecturesForArchitectureIDLoadData />
               </ChildContent>
@@ -28,7 +28,7 @@
             </RadzenFormField>
             <RadzenFormField Text="Autosarversion" Variant="Variant.Filled">
                   <ChildContent>
-                    <RadzenDropDownDataGrid Data="@autosarVersionsForAUTOSARVersionID" TextProperty="AUTOSARVersion1" ValueProperty="AUTOSARVersionID" AllowClear=true
+                    <RadzenDropDownDataGrid Data="@autosarVersionsForAUTOSARVersionID" TextProperty="AUTOSARVersionName" ValueProperty="AUTOSARVersionID" AllowClear=true
                           style="display: block; width: 100%" @bind-Value="@tresosAcg.AUTOSARVersionID" Name="AUTOSARVersionID"
                         SelectedValue=@autosarVersionsForAUTOSARVersionIDValue Count=@autosarVersionsForAUTOSARVersionIDCount LoadData=@autosarVersionsForAUTOSARVersionIDLoadData />
               </ChildContent>

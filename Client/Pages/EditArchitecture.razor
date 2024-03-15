@@ -22,9 +22,9 @@
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Architecture</RadzenAlert>
         <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.Architecture" Data="@architecture" Visible="@(architecture != null && canEdit)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Architecture1" Variant="Variant.Filled">
+            <RadzenFormField Text="ArchitectureName" Variant="Variant.Filled">
                   <ChildContent>
-                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@architecture.Architecture1" Name="Architecture1" />
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@architecture.ArchitectureName" Name="ArchitectureName" />
               </ChildContent>
             </RadzenFormField>
           </RadzenStack>

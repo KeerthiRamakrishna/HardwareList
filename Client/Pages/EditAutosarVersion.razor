@@ -22,9 +22,9 @@
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save AutosarVersion</RadzenAlert>
         <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.AutosarVersion" Data="@autosarVersion" Visible="@(autosarVersion != null && canEdit)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="A U T O S A R Version1" Variant="Variant.Filled">
+            <RadzenFormField Text="A U T O S A R VersionName" Variant="Variant.Filled">
                   <ChildContent>
-                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@autosarVersion.AUTOSARVersion1" Name="AUTOSARVersion1" />
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@autosarVersion.AUTOSARVersionName" Name="AUTOSARVersion1" />
               </ChildContent>
             </RadzenFormField>
           </RadzenStack>
