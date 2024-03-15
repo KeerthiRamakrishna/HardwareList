@@ -33,6 +33,20 @@ namespace HardwareManagement.Server.Controllers
             return ToExcel(ApplyQuery(await service.GetArchitectures(), Request.Query, false), fileName);
         }
 
+        [HttpGet("/export/FocusDB/autosarversions/csv")]
+        [HttpGet("/export/FocusDB/autosarversions/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportAutosarVersionsToCSV(string fileName = null)
+        {
+            return ToCSV(ApplyQuery(await service.GetAutosarVersions(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/FocusDB/autosarversions/excel")]
+        [HttpGet("/export/FocusDB/autosarversions/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportAutosarVersionsToExcel(string fileName = null)
+        {
+            return ToExcel(ApplyQuery(await service.GetAutosarVersions(), Request.Query, false), fileName);
+        }
+
         [HttpGet("/export/FocusDB/availabilitystatuses/csv")]
         [HttpGet("/export/FocusDB/availabilitystatuses/csv(fileName='{fileName}')")]
         public async Task<FileStreamResult> ExportAvailabilityStatusesToCSV(string fileName = null)
@@ -45,6 +59,34 @@ namespace HardwareManagement.Server.Controllers
         public async Task<FileStreamResult> ExportAvailabilityStatusesToExcel(string fileName = null)
         {
             return ToExcel(ApplyQuery(await service.GetAvailabilityStatuses(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/FocusDB/compilervendors/csv")]
+        [HttpGet("/export/FocusDB/compilervendors/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportCompilerVendorsToCSV(string fileName = null)
+        {
+            return ToCSV(ApplyQuery(await service.GetCompilerVendors(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/FocusDB/compilervendors/excel")]
+        [HttpGet("/export/FocusDB/compilervendors/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportCompilerVendorsToExcel(string fileName = null)
+        {
+            return ToExcel(ApplyQuery(await service.GetCompilerVendors(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/FocusDB/compilerversions/csv")]
+        [HttpGet("/export/FocusDB/compilerversions/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportCompilerVersionsToCSV(string fileName = null)
+        {
+            return ToCSV(ApplyQuery(await service.GetCompilerVersions(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/FocusDB/compilerversions/excel")]
+        [HttpGet("/export/FocusDB/compilerversions/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportCompilerVersionsToExcel(string fileName = null)
+        {
+            return ToExcel(ApplyQuery(await service.GetCompilerVersions(), Request.Query, false), fileName);
         }
 
         [HttpGet("/export/FocusDB/microcontrollerderivatives/csv")]
@@ -101,48 +143,6 @@ namespace HardwareManagement.Server.Controllers
         public async Task<FileStreamResult> ExportSiliconVendorsToExcel(string fileName = null)
         {
             return ToExcel(ApplyQuery(await service.GetSiliconVendors(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/FocusDB/autosarversions/csv")]
-        [HttpGet("/export/FocusDB/autosarversions/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportAutosarVersionsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetAutosarVersions(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/FocusDB/autosarversions/excel")]
-        [HttpGet("/export/FocusDB/autosarversions/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportAutosarVersionsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetAutosarVersions(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/FocusDB/compilervendors/csv")]
-        [HttpGet("/export/FocusDB/compilervendors/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportCompilerVendorsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetCompilerVendors(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/FocusDB/compilervendors/excel")]
-        [HttpGet("/export/FocusDB/compilervendors/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportCompilerVendorsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetCompilerVendors(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/FocusDB/compilerversions/csv")]
-        [HttpGet("/export/FocusDB/compilerversions/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportCompilerVersionsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetCompilerVersions(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/FocusDB/compilerversions/excel")]
-        [HttpGet("/export/FocusDB/compilerversions/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportCompilerVersionsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetCompilerVersions(), Request.Query, false), fileName);
         }
 
         [HttpGet("/export/FocusDB/tresosacgs/csv")]

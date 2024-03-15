@@ -22,9 +22,9 @@
         <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
             Data="@microControllers" LoadData="@Grid0LoadData" Count="@count" TItem="HardwareManagement.Server.Models.FocusDB.MicroController" RowDoubleClick="@EditRow">
             <Columns>
-                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroController" Property="HardwareId" Title="Hardware Id">
+@*                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroController" Property="HardwareId" Title="Hardware Id">
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroController" Property="HardwareName" Title="Hardware Name">
+ *@                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroController" Property="HardwareName" Title="Hardware Name">
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroController" Property="SiliconVendor.SiliconVendorName" Title="Silicon Vendor">
                 </RadzenDataGridColumn>

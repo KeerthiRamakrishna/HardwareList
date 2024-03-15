@@ -22,14 +22,6 @@
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save TresosAcg</RadzenAlert>
         <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Data="@tresosAcg" Visible="@(tresosAcg != null && canEdit)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Tresos A C G I D" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@tresosAcg.TresosACGID" Name="TresosACGID" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="TresosACGID" Text="TresosACGID is required" />
-                  </Helper>
-            </RadzenFormField>
             <RadzenFormField Text="Micro Controller Sub Derivative" Variant="Variant.Filled">
                   <ChildContent>
                     <RadzenDropDownDataGrid Data="@microControllerSubDerivativesForMicroControllerSubDerivativesID" TextProperty="MicroControllerSubDerivativesName" ValueProperty="MicroControllerSubDerivativesID" AllowClear=true

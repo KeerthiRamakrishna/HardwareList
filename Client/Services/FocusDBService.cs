@@ -126,6 +126,101 @@ namespace HardwareManagement.Client
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
+        public async System.Threading.Tasks.Task ExportAutosarVersionsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async System.Threading.Tasks.Task ExportAutosarVersionsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnGetAutosarVersions(HttpRequestMessage requestMessage);
+
+        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.AutosarVersion>> GetAutosarVersions(Query query)
+        {
+            return await GetAutosarVersions(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+        }
+
+        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.AutosarVersion>> GetAutosarVersions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        {
+            var uri = new Uri(baseUri, $"AutosarVersions");
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetAutosarVersions(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.AutosarVersion>>(response);
+        }
+
+        partial void OnCreateAutosarVersion(HttpRequestMessage requestMessage);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> CreateAutosarVersion(HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarVersion = default(HardwareManagement.Server.Models.FocusDB.AutosarVersion))
+        {
+            var uri = new Uri(baseUri, $"AutosarVersions");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(autosarVersion), Encoding.UTF8, "application/json");
+
+            OnCreateAutosarVersion(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.AutosarVersion>(response);
+        }
+
+        partial void OnDeleteAutosarVersion(HttpRequestMessage requestMessage);
+
+        public async Task<HttpResponseMessage> DeleteAutosarVersion(int autosarversionId = default(int))
+        {
+            var uri = new Uri(baseUri, $"AutosarVersions({autosarversionId})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+            OnDeleteAutosarVersion(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        partial void OnGetAutosarVersionByAutosarversionId(HttpRequestMessage requestMessage);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> GetAutosarVersionByAutosarversionId(string expand = default(string), int autosarversionId = default(int))
+        {
+            var uri = new Uri(baseUri, $"AutosarVersions({autosarversionId})");
+
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetAutosarVersionByAutosarversionId(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.AutosarVersion>(response);
+        }
+
+        partial void OnUpdateAutosarVersion(HttpRequestMessage requestMessage);
+        
+        public async Task<HttpResponseMessage> UpdateAutosarVersion(int autosarversionId = default(int), HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarVersion = default(HardwareManagement.Server.Models.FocusDB.AutosarVersion))
+        {
+            var uri = new Uri(baseUri, $"AutosarVersions({autosarversionId})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+            httpRequestMessage.Headers.Add("If-Match", autosarVersion.ETag);    
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(autosarVersion), Encoding.UTF8, "application/json");
+
+            OnUpdateAutosarVersion(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
         public async System.Threading.Tasks.Task ExportAvailabilityStatusesToExcel(Query query = null, string fileName = null)
         {
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/availabilitystatuses/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/availabilitystatuses/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
@@ -217,6 +312,196 @@ namespace HardwareManagement.Client
             httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(availabilityStatus), Encoding.UTF8, "application/json");
 
             OnUpdateAvailabilityStatus(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        public async System.Threading.Tasks.Task ExportCompilerVendorsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async System.Threading.Tasks.Task ExportCompilerVendorsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnGetCompilerVendors(HttpRequestMessage requestMessage);
+
+        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVendor>> GetCompilerVendors(Query query)
+        {
+            return await GetCompilerVendors(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+        }
+
+        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVendor>> GetCompilerVendors(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        {
+            var uri = new Uri(baseUri, $"CompilerVendors");
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetCompilerVendors(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVendor>>(response);
+        }
+
+        partial void OnCreateCompilerVendor(HttpRequestMessage requestMessage);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CreateCompilerVendor(HardwareManagement.Server.Models.FocusDB.CompilerVendor compilerVendor = default(HardwareManagement.Server.Models.FocusDB.CompilerVendor))
+        {
+            var uri = new Uri(baseUri, $"CompilerVendors");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVendor), Encoding.UTF8, "application/json");
+
+            OnCreateCompilerVendor(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVendor>(response);
+        }
+
+        partial void OnDeleteCompilerVendor(HttpRequestMessage requestMessage);
+
+        public async Task<HttpResponseMessage> DeleteCompilerVendor(int compilerVendorId = default(int))
+        {
+            var uri = new Uri(baseUri, $"CompilerVendors({compilerVendorId})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+            OnDeleteCompilerVendor(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        partial void OnGetCompilerVendorByCompilerVendorId(HttpRequestMessage requestMessage);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> GetCompilerVendorByCompilerVendorId(string expand = default(string), int compilerVendorId = default(int))
+        {
+            var uri = new Uri(baseUri, $"CompilerVendors({compilerVendorId})");
+
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetCompilerVendorByCompilerVendorId(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVendor>(response);
+        }
+
+        partial void OnUpdateCompilerVendor(HttpRequestMessage requestMessage);
+        
+        public async Task<HttpResponseMessage> UpdateCompilerVendor(int compilerVendorId = default(int), HardwareManagement.Server.Models.FocusDB.CompilerVendor compilerVendor = default(HardwareManagement.Server.Models.FocusDB.CompilerVendor))
+        {
+            var uri = new Uri(baseUri, $"CompilerVendors({compilerVendorId})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+            httpRequestMessage.Headers.Add("If-Match", compilerVendor.ETag);    
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVendor), Encoding.UTF8, "application/json");
+
+            OnUpdateCompilerVendor(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        public async System.Threading.Tasks.Task ExportCompilerVersionsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async System.Threading.Tasks.Task ExportCompilerVersionsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnGetCompilerVersions(HttpRequestMessage requestMessage);
+
+        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVersion>> GetCompilerVersions(Query query)
+        {
+            return await GetCompilerVersions(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+        }
+
+        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVersion>> GetCompilerVersions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        {
+            var uri = new Uri(baseUri, $"CompilerVersions");
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetCompilerVersions(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVersion>>(response);
+        }
+
+        partial void OnCreateCompilerVersion(HttpRequestMessage requestMessage);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CreateCompilerVersion(HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerVersion = default(HardwareManagement.Server.Models.FocusDB.CompilerVersion))
+        {
+            var uri = new Uri(baseUri, $"CompilerVersions");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVersion), Encoding.UTF8, "application/json");
+
+            OnCreateCompilerVersion(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVersion>(response);
+        }
+
+        partial void OnDeleteCompilerVersion(HttpRequestMessage requestMessage);
+
+        public async Task<HttpResponseMessage> DeleteCompilerVersion(int compilerVersionId = default(int))
+        {
+            var uri = new Uri(baseUri, $"CompilerVersions({compilerVersionId})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+            OnDeleteCompilerVersion(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        partial void OnGetCompilerVersionByCompilerVersionId(HttpRequestMessage requestMessage);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> GetCompilerVersionByCompilerVersionId(string expand = default(string), int compilerVersionId = default(int))
+        {
+            var uri = new Uri(baseUri, $"CompilerVersions({compilerVersionId})");
+
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetCompilerVersionByCompilerVersionId(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVersion>(response);
+        }
+
+        partial void OnUpdateCompilerVersion(HttpRequestMessage requestMessage);
+        
+        public async Task<HttpResponseMessage> UpdateCompilerVersion(int compilerVersionId = default(int), HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerVersion = default(HardwareManagement.Server.Models.FocusDB.CompilerVersion))
+        {
+            var uri = new Uri(baseUri, $"CompilerVersions({compilerVersionId})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+            httpRequestMessage.Headers.Add("If-Match", compilerVersion.ETag);    
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVersion), Encoding.UTF8, "application/json");
+
+            OnUpdateCompilerVersion(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
@@ -597,291 +882,6 @@ namespace HardwareManagement.Client
             httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(siliconVendor), Encoding.UTF8, "application/json");
 
             OnUpdateSiliconVendor(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        public async System.Threading.Tasks.Task ExportAutosarVersionsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async System.Threading.Tasks.Task ExportAutosarVersionsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnGetAutosarVersions(HttpRequestMessage requestMessage);
-
-        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.AutosarVersion>> GetAutosarVersions(Query query)
-        {
-            return await GetAutosarVersions(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
-        }
-
-        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.AutosarVersion>> GetAutosarVersions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
-        {
-            var uri = new Uri(baseUri, $"AutosarVersions");
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetAutosarVersions(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.AutosarVersion>>(response);
-        }
-
-        partial void OnCreateAutosarVersion(HttpRequestMessage requestMessage);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> CreateAutosarVersion(HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarVersion = default(HardwareManagement.Server.Models.FocusDB.AutosarVersion))
-        {
-            var uri = new Uri(baseUri, $"AutosarVersions");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(autosarVersion), Encoding.UTF8, "application/json");
-
-            OnCreateAutosarVersion(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.AutosarVersion>(response);
-        }
-
-        partial void OnDeleteAutosarVersion(HttpRequestMessage requestMessage);
-
-        public async Task<HttpResponseMessage> DeleteAutosarVersion(int autosarversionId = default(int))
-        {
-            var uri = new Uri(baseUri, $"AutosarVersions({autosarversionId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
-
-            OnDeleteAutosarVersion(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        partial void OnGetAutosarVersionByAutosarversionId(HttpRequestMessage requestMessage);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> GetAutosarVersionByAutosarversionId(string expand = default(string), int autosarversionId = default(int))
-        {
-            var uri = new Uri(baseUri, $"AutosarVersions({autosarversionId})");
-
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetAutosarVersionByAutosarversionId(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.AutosarVersion>(response);
-        }
-
-        partial void OnUpdateAutosarVersion(HttpRequestMessage requestMessage);
-        
-        public async Task<HttpResponseMessage> UpdateAutosarVersion(int autosarversionId = default(int), HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarVersion = default(HardwareManagement.Server.Models.FocusDB.AutosarVersion))
-        {
-            var uri = new Uri(baseUri, $"AutosarVersions({autosarversionId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
-
-            httpRequestMessage.Headers.Add("If-Match", autosarVersion.ETag);    
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(autosarVersion), Encoding.UTF8, "application/json");
-
-            OnUpdateAutosarVersion(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        public async System.Threading.Tasks.Task ExportCompilerVendorsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async System.Threading.Tasks.Task ExportCompilerVendorsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnGetCompilerVendors(HttpRequestMessage requestMessage);
-
-        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVendor>> GetCompilerVendors(Query query)
-        {
-            return await GetCompilerVendors(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
-        }
-
-        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVendor>> GetCompilerVendors(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
-        {
-            var uri = new Uri(baseUri, $"CompilerVendors");
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetCompilerVendors(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVendor>>(response);
-        }
-
-        partial void OnCreateCompilerVendor(HttpRequestMessage requestMessage);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CreateCompilerVendor(HardwareManagement.Server.Models.FocusDB.CompilerVendor compilerVendor = default(HardwareManagement.Server.Models.FocusDB.CompilerVendor))
-        {
-            var uri = new Uri(baseUri, $"CompilerVendors");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVendor), Encoding.UTF8, "application/json");
-
-            OnCreateCompilerVendor(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVendor>(response);
-        }
-
-        partial void OnDeleteCompilerVendor(HttpRequestMessage requestMessage);
-
-        public async Task<HttpResponseMessage> DeleteCompilerVendor(int compilerVendorId = default(int))
-        {
-            var uri = new Uri(baseUri, $"CompilerVendors({compilerVendorId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
-
-            OnDeleteCompilerVendor(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        partial void OnGetCompilerVendorByCompilerVendorId(HttpRequestMessage requestMessage);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> GetCompilerVendorByCompilerVendorId(string expand = default(string), int compilerVendorId = default(int))
-        {
-            var uri = new Uri(baseUri, $"CompilerVendors({compilerVendorId})");
-
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetCompilerVendorByCompilerVendorId(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVendor>(response);
-        }
-
-        partial void OnUpdateCompilerVendor(HttpRequestMessage requestMessage);
-        
-        public async Task<HttpResponseMessage> UpdateCompilerVendor(int compilerVendorId = default(int), HardwareManagement.Server.Models.FocusDB.CompilerVendor compilerVendor = default(HardwareManagement.Server.Models.FocusDB.CompilerVendor))
-        {
-            var uri = new Uri(baseUri, $"CompilerVendors({compilerVendorId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
-
-            httpRequestMessage.Headers.Add("If-Match", compilerVendor.ETag);    
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVendor), Encoding.UTF8, "application/json");
-
-            OnUpdateCompilerVendor(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        public async System.Threading.Tasks.Task ExportCompilerVersionsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async System.Threading.Tasks.Task ExportCompilerVersionsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnGetCompilerVersions(HttpRequestMessage requestMessage);
-
-        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVersion>> GetCompilerVersions(Query query)
-        {
-            return await GetCompilerVersions(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
-        }
-
-        public async Task<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVersion>> GetCompilerVersions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
-        {
-            var uri = new Uri(baseUri, $"CompilerVersions");
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetCompilerVersions(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<HardwareManagement.Server.Models.FocusDB.CompilerVersion>>(response);
-        }
-
-        partial void OnCreateCompilerVersion(HttpRequestMessage requestMessage);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CreateCompilerVersion(HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerVersion = default(HardwareManagement.Server.Models.FocusDB.CompilerVersion))
-        {
-            var uri = new Uri(baseUri, $"CompilerVersions");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVersion), Encoding.UTF8, "application/json");
-
-            OnCreateCompilerVersion(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVersion>(response);
-        }
-
-        partial void OnDeleteCompilerVersion(HttpRequestMessage requestMessage);
-
-        public async Task<HttpResponseMessage> DeleteCompilerVersion(int compilerVersionId = default(int))
-        {
-            var uri = new Uri(baseUri, $"CompilerVersions({compilerVersionId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
-
-            OnDeleteCompilerVersion(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        partial void OnGetCompilerVersionByCompilerVersionId(HttpRequestMessage requestMessage);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> GetCompilerVersionByCompilerVersionId(string expand = default(string), int compilerVersionId = default(int))
-        {
-            var uri = new Uri(baseUri, $"CompilerVersions({compilerVersionId})");
-
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetCompilerVersionByCompilerVersionId(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<HardwareManagement.Server.Models.FocusDB.CompilerVersion>(response);
-        }
-
-        partial void OnUpdateCompilerVersion(HttpRequestMessage requestMessage);
-        
-        public async Task<HttpResponseMessage> UpdateCompilerVersion(int compilerVersionId = default(int), HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerVersion = default(HardwareManagement.Server.Models.FocusDB.CompilerVersion))
-        {
-            var uri = new Uri(baseUri, $"CompilerVersions({compilerVersionId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
-
-            httpRequestMessage.Headers.Add("If-Match", compilerVersion.ETag);    
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(compilerVersion), Encoding.UTF8, "application/json");
-
-            OnUpdateCompilerVersion(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }

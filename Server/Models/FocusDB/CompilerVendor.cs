@@ -21,7 +21,7 @@ namespace HardwareManagement.Server.Models.FocusDB
         }
 
         [Key]
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompilerVendorID { get; set; }
 
         [ConcurrencyCheck]

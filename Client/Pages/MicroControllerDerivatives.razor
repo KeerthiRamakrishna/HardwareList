@@ -22,8 +22,8 @@
         <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
             Data="@microControllerDerivatives" LoadData="@Grid0LoadData" Count="@count" TItem="HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative" RowDoubleClick="@EditRow">
             <Columns>
-                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative" Property="MicroControllerDerivativesID" Title="Micro Controller Derivatives I D">
-                </RadzenDataGridColumn>
+ @*                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative" Property="MicroControllerDerivativesID" Title="Micro Controller Derivatives I D">
+                </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative" Property="MicroControllerDerivativesName" Title="Micro Controller Derivatives Name">
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative" Property="SiliconVendor.SiliconVendorName" Title="Silicon Vendor">

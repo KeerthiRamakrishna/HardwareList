@@ -22,14 +22,6 @@
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save CompilerVendor</RadzenAlert>
         <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.CompilerVendor" Data="@compilerVendor" Visible="@(compilerVendor != null && canEdit)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Compiler Vendor I D" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@compilerVendor.CompilerVendorID" Name="CompilerVendorID" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="CompilerVendorID" Text="CompilerVendorID is required" />
-                  </Helper>
-            </RadzenFormField>
             <RadzenFormField Text="Compiler Vendor Name" Variant="Variant.Filled">
                   <ChildContent>
                     <RadzenTextBox style="display: block; width: 100%" @bind-Value="@compilerVendor.CompilerVendorName" Name="CompilerVendorName" />

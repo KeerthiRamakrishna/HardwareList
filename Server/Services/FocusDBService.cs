@@ -232,6 +232,168 @@ namespace HardwareManagement.Server
             return itemToDelete;
         }
     
+        public async Task ExportAutosarVersionsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportAutosarVersionsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnAutosarVersionsRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.AutosarVersion> items);
+
+        public async Task<IQueryable<HardwareManagement.Server.Models.FocusDB.AutosarVersion>> GetAutosarVersions(Query query = null)
+        {
+            var items = Context.AutosarVersions.AsQueryable();
+
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnAutosarVersionsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnAutosarVersionGet(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+        partial void OnGetAutosarVersionByAutosarversionId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.AutosarVersion> items);
+
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> GetAutosarVersionByAutosarversionId(int autosarversionid)
+        {
+            var items = Context.AutosarVersions
+                              .AsNoTracking()
+                              .Where(i => i.AUTOSARVersionID == autosarversionid);
+
+ 
+            OnGetAutosarVersionByAutosarversionId(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnAutosarVersionGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnAutosarVersionCreated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+        partial void OnAfterAutosarVersionCreated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> CreateAutosarVersion(HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarversion)
+        {
+            OnAutosarVersionCreated(autosarversion);
+
+            var existingItem = Context.AutosarVersions
+                              .Where(i => i.AUTOSARVersionID == autosarversion.AUTOSARVersionID)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.AutosarVersions.Add(autosarversion);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(autosarversion).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterAutosarVersionCreated(autosarversion);
+
+            return autosarversion;
+        }
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> CancelAutosarVersionChanges(HardwareManagement.Server.Models.FocusDB.AutosarVersion item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnAutosarVersionUpdated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+        partial void OnAfterAutosarVersionUpdated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> UpdateAutosarVersion(int autosarversionid, HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarversion)
+        {
+            OnAutosarVersionUpdated(autosarversion);
+
+            var itemToUpdate = Context.AutosarVersions
+                              .Where(i => i.AUTOSARVersionID == autosarversion.AUTOSARVersionID)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(autosarversion);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterAutosarVersionUpdated(autosarversion);
+
+            return autosarversion;
+        }
+
+        partial void OnAutosarVersionDeleted(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+        partial void OnAfterAutosarVersionDeleted(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> DeleteAutosarVersion(int autosarversionid)
+        {
+            var itemToDelete = Context.AutosarVersions
+                              .Where(i => i.AUTOSARVersionID == autosarversionid)
+                              .Include(i => i.TresosAcgs)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnAutosarVersionDeleted(itemToDelete);
+
+
+            Context.AutosarVersions.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterAutosarVersionDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
         public async Task ExportAvailabilityStatusesToExcel(Query query = null, string fileName = null)
         {
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/availabilitystatuses/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/availabilitystatuses/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
@@ -393,6 +555,334 @@ namespace HardwareManagement.Server
             }
 
             OnAfterAvailabilityStatusDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportCompilerVendorsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportCompilerVendorsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnCompilerVendorsRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVendor> items);
+
+        public async Task<IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVendor>> GetCompilerVendors(Query query = null)
+        {
+            var items = Context.CompilerVendors.AsQueryable();
+
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnCompilerVendorsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnCompilerVendorGet(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+        partial void OnGetCompilerVendorByCompilerVendorId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVendor> items);
+
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> GetCompilerVendorByCompilerVendorId(int compilervendorid)
+        {
+            var items = Context.CompilerVendors
+                              .AsNoTracking()
+                              .Where(i => i.CompilerVendorID == compilervendorid);
+
+ 
+            OnGetCompilerVendorByCompilerVendorId(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnCompilerVendorGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnCompilerVendorCreated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+        partial void OnAfterCompilerVendorCreated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CreateCompilerVendor(HardwareManagement.Server.Models.FocusDB.CompilerVendor compilervendor)
+        {
+            OnCompilerVendorCreated(compilervendor);
+
+            var existingItem = Context.CompilerVendors
+                              .Where(i => i.CompilerVendorID == compilervendor.CompilerVendorID)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.CompilerVendors.Add(compilervendor);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(compilervendor).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterCompilerVendorCreated(compilervendor);
+
+            return compilervendor;
+        }
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CancelCompilerVendorChanges(HardwareManagement.Server.Models.FocusDB.CompilerVendor item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnCompilerVendorUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+        partial void OnAfterCompilerVendorUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> UpdateCompilerVendor(int compilervendorid, HardwareManagement.Server.Models.FocusDB.CompilerVendor compilervendor)
+        {
+            OnCompilerVendorUpdated(compilervendor);
+
+            var itemToUpdate = Context.CompilerVendors
+                              .Where(i => i.CompilerVendorID == compilervendor.CompilerVendorID)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(compilervendor);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterCompilerVendorUpdated(compilervendor);
+
+            return compilervendor;
+        }
+
+        partial void OnCompilerVendorDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+        partial void OnAfterCompilerVendorDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> DeleteCompilerVendor(int compilervendorid)
+        {
+            var itemToDelete = Context.CompilerVendors
+                              .Where(i => i.CompilerVendorID == compilervendorid)
+                              .Include(i => i.TresosAcgs)
+                              .Include(i => i.TresosAutoCores)
+                              .Include(i => i.TresosSafetyOs)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnCompilerVendorDeleted(itemToDelete);
+
+
+            Context.CompilerVendors.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterCompilerVendorDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportCompilerVersionsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportCompilerVersionsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnCompilerVersionsRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVersion> items);
+
+        public async Task<IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVersion>> GetCompilerVersions(Query query = null)
+        {
+            var items = Context.CompilerVersions.AsQueryable();
+
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnCompilerVersionsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnCompilerVersionGet(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+        partial void OnGetCompilerVersionByCompilerVersionId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVersion> items);
+
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> GetCompilerVersionByCompilerVersionId(int compilerversionid)
+        {
+            var items = Context.CompilerVersions
+                              .AsNoTracking()
+                              .Where(i => i.CompilerVersionID == compilerversionid);
+
+ 
+            OnGetCompilerVersionByCompilerVersionId(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnCompilerVersionGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnCompilerVersionCreated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+        partial void OnAfterCompilerVersionCreated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CreateCompilerVersion(HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerversion)
+        {
+            OnCompilerVersionCreated(compilerversion);
+
+            var existingItem = Context.CompilerVersions
+                              .Where(i => i.CompilerVersionID == compilerversion.CompilerVersionID)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.CompilerVersions.Add(compilerversion);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(compilerversion).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterCompilerVersionCreated(compilerversion);
+
+            return compilerversion;
+        }
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CancelCompilerVersionChanges(HardwareManagement.Server.Models.FocusDB.CompilerVersion item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnCompilerVersionUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+        partial void OnAfterCompilerVersionUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> UpdateCompilerVersion(int compilerversionid, HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerversion)
+        {
+            OnCompilerVersionUpdated(compilerversion);
+
+            var itemToUpdate = Context.CompilerVersions
+                              .Where(i => i.CompilerVersionID == compilerversion.CompilerVersionID)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(compilerversion);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterCompilerVersionUpdated(compilerversion);
+
+            return compilerversion;
+        }
+
+        partial void OnCompilerVersionDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+        partial void OnAfterCompilerVersionDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
+
+        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> DeleteCompilerVersion(int compilerversionid)
+        {
+            var itemToDelete = Context.CompilerVersions
+                              .Where(i => i.CompilerVersionID == compilerversionid)
+                              .Include(i => i.TresosAcgs)
+                              .Include(i => i.TresosAutoCores)
+                              .Include(i => i.TresosSafetyOs)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnCompilerVersionDeleted(itemToDelete);
+
+
+            Context.CompilerVersions.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterCompilerVersionDeleted(itemToDelete);
 
             return itemToDelete;
         }
@@ -1055,496 +1545,6 @@ namespace HardwareManagement.Server
             }
 
             OnAfterSiliconVendorDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportAutosarVersionsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportAutosarVersionsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/autosarversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnAutosarVersionsRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.AutosarVersion> items);
-
-        public async Task<IQueryable<HardwareManagement.Server.Models.FocusDB.AutosarVersion>> GetAutosarVersions(Query query = null)
-        {
-            var items = Context.AutosarVersions.AsQueryable();
-
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnAutosarVersionsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnAutosarVersionGet(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-        partial void OnGetAutosarVersionByAutosarversionId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.AutosarVersion> items);
-
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> GetAutosarVersionByAutosarversionId(int autosarversionid)
-        {
-            var items = Context.AutosarVersions
-                              .AsNoTracking()
-                              .Where(i => i.AUTOSARVersionID == autosarversionid);
-
- 
-            OnGetAutosarVersionByAutosarversionId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnAutosarVersionGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnAutosarVersionCreated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-        partial void OnAfterAutosarVersionCreated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> CreateAutosarVersion(HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarversion)
-        {
-            OnAutosarVersionCreated(autosarversion);
-
-            var existingItem = Context.AutosarVersions
-                              .Where(i => i.AUTOSARVersionID == autosarversion.AUTOSARVersionID)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.AutosarVersions.Add(autosarversion);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(autosarversion).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterAutosarVersionCreated(autosarversion);
-
-            return autosarversion;
-        }
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> CancelAutosarVersionChanges(HardwareManagement.Server.Models.FocusDB.AutosarVersion item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnAutosarVersionUpdated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-        partial void OnAfterAutosarVersionUpdated(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> UpdateAutosarVersion(int autosarversionid, HardwareManagement.Server.Models.FocusDB.AutosarVersion autosarversion)
-        {
-            OnAutosarVersionUpdated(autosarversion);
-
-            var itemToUpdate = Context.AutosarVersions
-                              .Where(i => i.AUTOSARVersionID == autosarversion.AUTOSARVersionID)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(autosarversion);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterAutosarVersionUpdated(autosarversion);
-
-            return autosarversion;
-        }
-
-        partial void OnAutosarVersionDeleted(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-        partial void OnAfterAutosarVersionDeleted(HardwareManagement.Server.Models.FocusDB.AutosarVersion item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.AutosarVersion> DeleteAutosarVersion(int autosarversionid)
-        {
-            var itemToDelete = Context.AutosarVersions
-                              .Where(i => i.AUTOSARVersionID == autosarversionid)
-                              .Include(i => i.TresosAcgs)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnAutosarVersionDeleted(itemToDelete);
-
-
-            Context.AutosarVersions.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterAutosarVersionDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportCompilerVendorsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportCompilerVendorsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilervendors/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnCompilerVendorsRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVendor> items);
-
-        public async Task<IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVendor>> GetCompilerVendors(Query query = null)
-        {
-            var items = Context.CompilerVendors.AsQueryable();
-
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnCompilerVendorsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnCompilerVendorGet(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-        partial void OnGetCompilerVendorByCompilerVendorId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVendor> items);
-
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> GetCompilerVendorByCompilerVendorId(int compilervendorid)
-        {
-            var items = Context.CompilerVendors
-                              .AsNoTracking()
-                              .Where(i => i.CompilerVendorID == compilervendorid);
-
- 
-            OnGetCompilerVendorByCompilerVendorId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnCompilerVendorGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnCompilerVendorCreated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-        partial void OnAfterCompilerVendorCreated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CreateCompilerVendor(HardwareManagement.Server.Models.FocusDB.CompilerVendor compilervendor)
-        {
-            OnCompilerVendorCreated(compilervendor);
-
-            var existingItem = Context.CompilerVendors
-                              .Where(i => i.CompilerVendorID == compilervendor.CompilerVendorID)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.CompilerVendors.Add(compilervendor);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(compilervendor).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterCompilerVendorCreated(compilervendor);
-
-            return compilervendor;
-        }
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CancelCompilerVendorChanges(HardwareManagement.Server.Models.FocusDB.CompilerVendor item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnCompilerVendorUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-        partial void OnAfterCompilerVendorUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> UpdateCompilerVendor(int compilervendorid, HardwareManagement.Server.Models.FocusDB.CompilerVendor compilervendor)
-        {
-            OnCompilerVendorUpdated(compilervendor);
-
-            var itemToUpdate = Context.CompilerVendors
-                              .Where(i => i.CompilerVendorID == compilervendor.CompilerVendorID)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(compilervendor);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterCompilerVendorUpdated(compilervendor);
-
-            return compilervendor;
-        }
-
-        partial void OnCompilerVendorDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-        partial void OnAfterCompilerVendorDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVendor item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVendor> DeleteCompilerVendor(int compilervendorid)
-        {
-            var itemToDelete = Context.CompilerVendors
-                              .Where(i => i.CompilerVendorID == compilervendorid)
-                              .Include(i => i.TresosAcgs)
-                              .Include(i => i.TresosAutoCores)
-                              .Include(i => i.TresosSafetyOs)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnCompilerVendorDeleted(itemToDelete);
-
-
-            Context.CompilerVendors.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterCompilerVendorDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportCompilerVersionsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportCompilerVersionsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/focusdb/compilerversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnCompilerVersionsRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVersion> items);
-
-        public async Task<IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVersion>> GetCompilerVersions(Query query = null)
-        {
-            var items = Context.CompilerVersions.AsQueryable();
-
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnCompilerVersionsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnCompilerVersionGet(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-        partial void OnGetCompilerVersionByCompilerVersionId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.CompilerVersion> items);
-
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> GetCompilerVersionByCompilerVersionId(int compilerversionid)
-        {
-            var items = Context.CompilerVersions
-                              .AsNoTracking()
-                              .Where(i => i.CompilerVersionID == compilerversionid);
-
- 
-            OnGetCompilerVersionByCompilerVersionId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnCompilerVersionGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnCompilerVersionCreated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-        partial void OnAfterCompilerVersionCreated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CreateCompilerVersion(HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerversion)
-        {
-            OnCompilerVersionCreated(compilerversion);
-
-            var existingItem = Context.CompilerVersions
-                              .Where(i => i.CompilerVersionID == compilerversion.CompilerVersionID)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.CompilerVersions.Add(compilerversion);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(compilerversion).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterCompilerVersionCreated(compilerversion);
-
-            return compilerversion;
-        }
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CancelCompilerVersionChanges(HardwareManagement.Server.Models.FocusDB.CompilerVersion item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnCompilerVersionUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-        partial void OnAfterCompilerVersionUpdated(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> UpdateCompilerVersion(int compilerversionid, HardwareManagement.Server.Models.FocusDB.CompilerVersion compilerversion)
-        {
-            OnCompilerVersionUpdated(compilerversion);
-
-            var itemToUpdate = Context.CompilerVersions
-                              .Where(i => i.CompilerVersionID == compilerversion.CompilerVersionID)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(compilerversion);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterCompilerVersionUpdated(compilerversion);
-
-            return compilerversion;
-        }
-
-        partial void OnCompilerVersionDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-        partial void OnAfterCompilerVersionDeleted(HardwareManagement.Server.Models.FocusDB.CompilerVersion item);
-
-        public async Task<HardwareManagement.Server.Models.FocusDB.CompilerVersion> DeleteCompilerVersion(int compilerversionid)
-        {
-            var itemToDelete = Context.CompilerVersions
-                              .Where(i => i.CompilerVersionID == compilerversionid)
-                              .Include(i => i.TresosAcgs)
-                              .Include(i => i.TresosAutoCores)
-                              .Include(i => i.TresosSafetyOs)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnCompilerVersionDeleted(itemToDelete);
-
-
-            Context.CompilerVersions.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterCompilerVersionDeleted(itemToDelete);
 
             return itemToDelete;
         }

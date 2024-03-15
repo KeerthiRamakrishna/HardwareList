@@ -22,14 +22,6 @@
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save TresosAutoCore</RadzenAlert>
         <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.TresosAutoCore" Data="@tresosAutoCore" Visible="@(tresosAutoCore != null && canEdit)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Tresos Auto Core I D" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@tresosAutoCore.TresosAutoCoreID" Name="TresosAutoCoreID" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="TresosAutoCoreID" Text="TresosAutoCoreID is required" />
-                  </Helper>
-            </RadzenFormField>
             <RadzenFormField Text="Micro Controller Sub Derivative" Variant="Variant.Filled">
                   <ChildContent>
                     <RadzenDropDownDataGrid Data="@microControllerSubDerivativesForMicroControllerSubDerivativesID" TextProperty="MicroControllerSubDerivativesName" ValueProperty="MicroControllerSubDerivativesID" AllowClear=true

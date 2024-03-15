@@ -22,14 +22,6 @@
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save CompilerVersion</RadzenAlert>
         <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.CompilerVersion" Data="@compilerVersion" Visible="@(compilerVersion != null && canEdit)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Compiler Version I D" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@compilerVersion.CompilerVersionID" Name="CompilerVersionID" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="CompilerVersionID" Text="CompilerVersionID is required" />
-                  </Helper>
-            </RadzenFormField>
             <RadzenFormField Text="Compiler Version Name" Variant="Variant.Filled">
                   <ChildContent>
                     <RadzenTextBox style="display: block; width: 100%" @bind-Value="@compilerVersion.CompilerVersionName" Name="CompilerVersionName" />

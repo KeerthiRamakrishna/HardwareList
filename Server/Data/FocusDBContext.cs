@@ -158,7 +158,13 @@ namespace HardwareManagement.Server.Data
 
         public DbSet<HardwareManagement.Server.Models.FocusDB.Architecture> Architectures { get; set; }
 
+        public DbSet<HardwareManagement.Server.Models.FocusDB.AutosarVersion> AutosarVersions { get; set; }
+
         public DbSet<HardwareManagement.Server.Models.FocusDB.AvailabilityStatus> AvailabilityStatuses { get; set; }
+
+        public DbSet<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CompilerVendors { get; set; }
+
+        public DbSet<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CompilerVersions { get; set; }
 
         public DbSet<HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative> MicroControllerDerivatives { get; set; }
 
@@ -167,12 +173,6 @@ namespace HardwareManagement.Server.Data
         public DbSet<HardwareManagement.Server.Models.FocusDB.MicroControllerSubDerivative> MicroControllerSubDerivatives { get; set; }
 
         public DbSet<HardwareManagement.Server.Models.FocusDB.SiliconVendor> SiliconVendors { get; set; }
-
-        public DbSet<HardwareManagement.Server.Models.FocusDB.AutosarVersion> AutosarVersions { get; set; }
-
-        public DbSet<HardwareManagement.Server.Models.FocusDB.CompilerVendor> CompilerVendors { get; set; }
-
-        public DbSet<HardwareManagement.Server.Models.FocusDB.CompilerVersion> CompilerVersions { get; set; }
 
         public DbSet<HardwareManagement.Server.Models.FocusDB.TresosAcg> TresosAcgs { get; set; }
 

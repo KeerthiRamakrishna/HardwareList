@@ -22,8 +22,8 @@
         <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
             Data="@compilerVersions" LoadData="@Grid0LoadData" Count="@count" TItem="HardwareManagement.Server.Models.FocusDB.CompilerVersion" RowDoubleClick="@EditRow">
             <Columns>
-                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.CompilerVersion" Property="CompilerVersionID" Title="Compiler Version I D">
-                </RadzenDataGridColumn>
+                @* <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.CompilerVersion" Property="CompilerVersionID" Title="Compiler Version I D">
+                </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.CompilerVersion" Property="CompilerVersionName" Title="Compiler Version Name">
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.CompilerVersion" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">

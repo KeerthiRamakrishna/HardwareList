@@ -20,14 +20,14 @@ builder.Services.AddControllers().AddOData(opt =>
 {
     var oDataBuilderFocusDB = new ODataConventionModelBuilder();
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.Architecture>("Architectures");
+    oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.AutosarVersion>("AutosarVersions");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.AvailabilityStatus>("AvailabilityStatuses");
+    oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.CompilerVendor>("CompilerVendors");
+    oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.CompilerVersion>("CompilerVersions");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.MicroControllerDerivative>("MicroControllerDerivatives");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.MicroController>("MicroControllers");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.MicroControllerSubDerivative>("MicroControllerSubDerivatives");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.SiliconVendor>("SiliconVendors");
-    oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.AutosarVersion>("AutosarVersions");
-    oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.CompilerVendor>("CompilerVendors");
-    oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.CompilerVersion>("CompilerVersions");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.TresosAcg>("TresosAcgs");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.TresosAutoCore>("TresosAutoCores");
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.TresosSafetyO>("TresosSafetyOs");
