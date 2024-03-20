@@ -8,6 +8,7 @@ using HardwareManagement.Server.Data;
 
 namespace HardwareManagement.Server.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public partial class ExportFocusDBController : ExportController
     {
         private readonly FocusDBContext context;

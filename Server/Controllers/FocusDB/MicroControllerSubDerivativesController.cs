@@ -16,7 +16,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/MicroControllerSubDerivatives")]
+    //[Route("odata/FocusDB/MicroControllerSubDerivatives")]
+    [Route("api/[controller]/[action]")]
     public partial class MicroControllerSubDerivativesController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;

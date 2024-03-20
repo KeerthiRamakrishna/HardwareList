@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace HardwareManagement.Server.Controllers
 {
+    [Route("api/[controller]")]
     public partial class ExportController : Controller
     {
         public IQueryable ApplyQuery<T>(IQueryable<T> items, IQueryCollection query = null, bool keyless = false) where T : class
@@ -65,7 +66,8 @@ namespace HardwareManagement.Server.Controllers
             return items;
         }
 
-        public FileStreamResult ToCSV(IQueryable query, string fileName = null)
+    
+        protected FileStreamResult ToCSV(IQueryable query, string fileName = null)
         {
             var columns = GetProperties(query.ElementType);
 
@@ -90,7 +92,7 @@ namespace HardwareManagement.Server.Controllers
             return result;
         }
 
-        public FileStreamResult ToExcel(IQueryable query, string fileName = null)
+        protected FileStreamResult ToExcel(IQueryable query, string fileName = null)
         {
             var columns = GetProperties(query.ElementType);
             var stream = new MemoryStream();

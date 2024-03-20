@@ -16,7 +16,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/TresosSafetyOs")]
+    //[Route("odata/FocusDB/TresosSafetyOs")]
+    [Route("api/[controller]/[action]")]
     public partial class TresosSafetyOsController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;

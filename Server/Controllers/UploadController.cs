@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace HardwareManagement.Server.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public partial class UploadController : Controller
     {
         private readonly IWebHostEnvironment environment;

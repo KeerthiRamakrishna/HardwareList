@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HardwareManagement.Server.Controllers
 {
+    [Route("api/[controller]")]
     public partial class ReportController : Controller
     {
         [HttpGet("/__ssrsreport")]
@@ -30,6 +31,7 @@ namespace HardwareManagement.Server.Controllers
             }
         }
 
+        [NonAction]
         [Route("/ssrsproxy/{*url}")]
         public async Task Proxy()
         {
@@ -72,7 +74,9 @@ namespace HardwareManagement.Server.Controllers
             }
         }
 
+        [NonAction]
         partial void OnHttpClientHandlerCreate(ref HttpClientHandler handler);
+
 
         private HttpClient CreateHttpClient()
         {
@@ -90,9 +94,10 @@ namespace HardwareManagement.Server.Controllers
 
             return new HttpClient(httpClientHandler);
         }
-
+        [NonAction]
         partial void OnReportRequest(ref HttpRequestMessage requestMessage);
 
+        [NonAction]
         async Task<HttpResponseMessage> ForwardRequest(HttpClient httpClient, HttpRequest currentReqest, string url)
         {
             var proxyRequestMessage = new HttpRequestMessage(new HttpMethod(currentReqest.Method), url);
@@ -128,6 +133,7 @@ namespace HardwareManagement.Server.Controllers
             return await httpClient.SendAsync(proxyRequestMessage);
         }
 
+        [NonAction]
         static void CopyResponseHeaders(HttpResponseMessage responseMessage, HttpResponse response)
         {
             response.StatusCode = (int)responseMessage.StatusCode;
@@ -144,6 +150,7 @@ namespace HardwareManagement.Server.Controllers
             response.Headers.Remove("transfer-encoding");
         }
 
+        [NonAction]
         static async Task WriteResponse(HttpRequest currentReqest, string url, HttpResponseMessage responseMessage, HttpResponse response, bool isAjax)
         {
             var result = await responseMessage.Content.ReadAsStringAsync();

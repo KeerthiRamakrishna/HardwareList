@@ -16,7 +16,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/AutosarVersions")]
+    //[Route("odata/FocusDB/AutosarVersions")]
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    [Produces("application/json")]
     public partial class AutosarVersionsController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;

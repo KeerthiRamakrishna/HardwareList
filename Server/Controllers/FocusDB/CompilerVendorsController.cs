@@ -16,7 +16,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/CompilerVendors")]
+    //[Route("odata/FocusDB/CompilerVendors")]
+    [Route("api/[controller]/[action]")]
     public partial class CompilerVendorsController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;

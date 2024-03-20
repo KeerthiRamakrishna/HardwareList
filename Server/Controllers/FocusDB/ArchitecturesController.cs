@@ -16,7 +16,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/Architectures")]
+    //[Route("odata/FocusDB/Architectures")]
+    [Route("api/[controller]/[action]")]
     public partial class ArchitecturesController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;
@@ -26,9 +27,9 @@ namespace HardwareManagement.Server.Controllers.FocusDB
             this.context = context;
         }
 
-    
+
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
+        [EnableQuery(MaxExpansionDepth = 10, MaxAnyAllExpressionDepth = 10, MaxNodeCount = 1000)]
         public IEnumerable<HardwareManagement.Server.Models.FocusDB.Architecture> GetArchitectures()
         {
             var items = this.context.Architectures.AsQueryable<HardwareManagement.Server.Models.FocusDB.Architecture>();
@@ -182,12 +183,12 @@ namespace HardwareManagement.Server.Controllers.FocusDB
         partial void OnAfterArchitectureCreated(HardwareManagement.Server.Models.FocusDB.Architecture item);
 
         [HttpPost]
-        [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
+        [EnableQuery(MaxExpansionDepth = 10, MaxAnyAllExpressionDepth = 10, MaxNodeCount = 1000)]
         public IActionResult Post([FromBody] HardwareManagement.Server.Models.FocusDB.Architecture item)
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
@@ -203,7 +204,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
 
                 var itemToReturn = this.context.Architectures.Where(i => i.ArchitectureID == item.ArchitectureID);
 
-                
+
 
                 this.OnAfterArchitectureCreated(item);
 
@@ -212,7 +213,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
                     StatusCode = 201
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 return BadRequest(ModelState);

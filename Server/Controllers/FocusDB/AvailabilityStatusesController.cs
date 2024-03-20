@@ -16,7 +16,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/AvailabilityStatuses")]
+    //[Route("odata/FocusDB/AvailabilityStatuses")]
+    [Route("api/[controller]/[action]")]
     public partial class AvailabilityStatusesController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;

@@ -32,6 +32,7 @@ namespace HardwareManagement.Server.Models.FocusDB
         [ConcurrencyCheck]
         public int? ArchitectureID { get; set; }
 
+        
         public Architecture Architecture { get; set; }
 
         [ConcurrencyCheck]

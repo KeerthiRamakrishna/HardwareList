@@ -16,7 +16,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/CompilerVersions")]
+    //[Route("odata/FocusDB/CompilerVersions")]
+    [Route("api/[controller]/[action]")]
     public partial class CompilerVersionsController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;

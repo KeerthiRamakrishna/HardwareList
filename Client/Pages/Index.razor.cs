@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using HardwareManagement.Server.Models.FocusDB;
 using Microsoft.AspNetCore.Authorization;
@@ -51,8 +52,24 @@ namespace HardwareManagement.Client.Pages
         {
             public int CountOfSubDerevatives { get; set; }
             public string ArchitectureName { get; set; }
-        }
 
+        }
+        IEnumerable<ArchitectureGroupForTresosAutoCoreVendor> architectureGroupForTresosAutoCoreVendor;
+        class ArchitectureGroupForTresosAutoCoreVendor
+        {
+            public int CountOfAvailability { get; set; }
+            public string VendorName { get; set; }
+
+        }
+        IEnumerable<ArchitectureGroupForTresosAutoCoreAvailability> architectureGroupForTresosAutoCoreAvailability;
+        class ArchitectureGroupForTresosAutoCoreAvailability
+        {
+            public int CountOfAvailability { get; set; }
+            public string TresosAutocore { get; set; }
+            public string TresosAutocoreColour { get; set; }
+
+
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -75,11 +92,52 @@ namespace HardwareManagement.Client.Pages
                 var result4 = await FocusDBService.GetMicroControllerSubDerivatives();
                 MicrocontrollerSubDerivativeCount = result4.Value.Count();
 
+                var result5 = await FocusDBService.GetTresosAutoCores(filter: $@"(contains(MultiCore,""{search}"") or contains(DevDrop,""{search}"") or contains(RFM,""{search}"")) ", expand: "MicroControllerSubDerivative,Architecture,AvailabilityStatus,CompilerVendor,CompilerVersion");
 
-                var result5 = await FocusDBService.GetTresosAutoCores();
                 architectureGroupForTresosAutoCore = result5.Value.GroupBy(issue => issue.Architecture.ArchitectureName)
                                    .Select(group => new ArchitectureGroupForTresosAutoCore { ArchitectureName = group.Key, CountOfSubDerevatives = group.Count() })
                                    .OrderByDescending(group => group.CountOfSubDerevatives);
+
+
+                var result6 = await FocusDBService.GetTresosAutoCores(filter: $@"(contains(MultiCore,""{search}"") or contains(DevDrop,""{search}"") or contains(RFM,""{search}"")) ", expand: "MicroControllerSubDerivative,Architecture,AvailabilityStatus,CompilerVendor,CompilerVersion");
+
+
+                architectureGroupForTresosAutoCoreVendor = result6.Value.GroupBy(issue => issue.CompilerVendor.CompilerVendorName)
+                                   .Select(group => new ArchitectureGroupForTresosAutoCoreVendor { VendorName = group.Key, CountOfAvailability = group.Count() })
+                                   .OrderByDescending(group => group.CountOfAvailability);
+
+
+                var result7 = await FocusDBService.GetTresosAutoCores(filter: $@"(contains(MultiCore,""{search}"") or contains(DevDrop,""{search}"") or contains(RFM,""{search}"")) ", expand: "MicroControllerSubDerivative,Architecture,AvailabilityStatus,CompilerVendor,CompilerVersion");
+
+
+                //architectureGroupForTresosAutoCoreAvailability = result7.Value.GroupBy(issue => issue.AvailabilityStatus.AvailabilityStatusName)
+                //                   .Select(group => new ArchitectureGroupForTresosAutoCoreAvailability { TresosAutocore = group.Key, CountOfAvailability = group.Count() })
+                //                   .OrderByDescending(group => group.CountOfAvailability);
+
+                architectureGroupForTresosAutoCoreAvailability = result7.Value
+                                .GroupBy(issue => new
+                                {
+                                    issue.AvailabilityStatus.AvailabilityStatusName,
+                                    issue.CompilerVendor.CompilerVendorName // Add additional columns here
+                                })
+                                .Select(group => new ArchitectureGroupForTresosAutoCoreAvailability
+                                {
+                                    //TresosAutocore = $"{group.Key.AvailabilityStatusName} - {group.Key.CompilerVendorName}",
+                                    TresosAutocoreColour = group.Key.AvailabilityStatusName,
+                                    TresosAutocore = group.Key.CompilerVendorName,
+                                    CountOfAvailability = group.Count()
+                                })
+                                .OrderByDescending(group => group.CountOfAvailability)
+                                .ToList();
+
+
+                architectureGroupForTresosAutoCoreAvailability = architectureGroupForTresosAutoCoreAvailability.GroupBy(isu => isu.TresosAutocore).Select(group => new ArchitectureGroupForTresosAutoCoreAvailability
+                {
+                    //TresosAutocore = $"{group.Key.AvailabilityStatusName} - {group.Key.CompilerVendorName}",
+                    TresosAutocoreColour = group.Key,
+                    //TresosAutocore = group.Key,
+                    CountOfAvailability = group.Count()
+                }).ToList(); 
 
 
             }

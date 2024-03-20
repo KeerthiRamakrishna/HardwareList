@@ -13,10 +13,12 @@ using Microsoft.AspNetCore.OData.Formatter;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections;
 
 namespace HardwareManagement.Server.Controllers.FocusDB
 {
-    [Route("odata/FocusDB/TresosAutoCores")]
+    //[Route("odata/FocusDB/TresosAutoCores")]
+    [Route("api/[controller]/[action]")]
     public partial class TresosAutoCoresController : ODataController
     {
         private HardwareManagement.Server.Data.FocusDBContext context;
@@ -25,10 +27,8 @@ namespace HardwareManagement.Server.Controllers.FocusDB
         {
             this.context = context;
         }
-
-    
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
+        [EnableQuery(MaxExpansionDepth = 10, MaxAnyAllExpressionDepth = 10, MaxNodeCount = 1000)]
         public IEnumerable<HardwareManagement.Server.Models.FocusDB.TresosAutoCore> GetTresosAutoCores()
         {
             var items = this.context.TresosAutoCores.AsQueryable<HardwareManagement.Server.Models.FocusDB.TresosAutoCore>();
@@ -36,6 +36,19 @@ namespace HardwareManagement.Server.Controllers.FocusDB
 
             return items;
         }
+
+        //[HttpGet]
+        //[EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
+        //public  async Task<IEnumerable<HardwareManagement.Server.Models.FocusDB.TresosAutoCore>> GetTresosAutoCores()
+        //{
+        //    var items = await this.context.TresosAutoCores.Include(x => x.Architecture).ToListAsync();
+        //        //.AsQueryable<HardwareManagement.Server.Models.FocusDB.TresosAutoCore>();
+        //    //this.OnTresosAutoCoresRead(ref items);
+
+        //    //return (IEnumerable<Models.FocusDB.TresosAutoCore>)this.context.TresosAutoCores.Include(x => x.Architecture).ToList();
+
+        //    return items;
+        //}
 
         partial void OnTresosAutoCoresRead(ref IQueryable<HardwareManagement.Server.Models.FocusDB.TresosAutoCore> items);
 
