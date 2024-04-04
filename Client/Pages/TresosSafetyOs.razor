@@ -1,0 +1,57 @@
+@page "/tresos-safety-os"
+
+<PageTitle>TresosSafetyOs</PageTitle>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="TresosSafetyOs" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                    <RadzenSplitButtonItem Text="CSV" Value="csv" />
+                </RadzenSplitButton>
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
+    <RadzenRow>
+      <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@tresosSafetyOs" LoadData="@Grid0LoadData" Count="@count" TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" RowDoubleClick="@EditRow">
+            <Columns>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="TresosSafetyOSID" Title="Tresos Safety O S I D">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="MicroControllerSubDerivative.MicroControllerSubDerivativesName" Title="Micro Controller Sub Derivative">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="Architecture.ArchitectureName" Title="Architecture">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="AvailabilityStatus.AvailabilityStatusName" Title="Availability Status">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="CompilerVendor.CompilerVendorName" Title="Compiler Vendor">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="CompilerVersion.CompilerVersionName" Title="Compiler Version">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="DevDrop" Title="Dev Drop">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="RFD" Title="R F D">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Property="RFM" Title="R F M">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosSafetyO" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="tresosSafetyO">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, tresosSafetyO)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+
+        </RadzenDataGrid>
+
+    </RadzenColumn>
+  </RadzenRow>
+</RadzenStack>

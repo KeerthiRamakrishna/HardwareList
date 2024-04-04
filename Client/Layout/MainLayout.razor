@@ -1,0 +1,55 @@
+@inherits LayoutComponentBase
+<RadzenComponents />
+
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
+    <RadzenHeader>
+        <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenColumn Size="5">
+                <RadzenSidebarToggle Click="@SidebarToggleClick"></RadzenSidebarToggle>
+            </RadzenColumn>
+            <RadzenColumn Size="7">
+                <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End"></RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenHeader>
+    <RadzenBody Expanded="@sidebarExpanded">
+        <RadzenRow class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12" Style="max-width: 1440px;">
+            <RadzenColumn Size="12">
+            @Body
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenBody>
+    <RadzenSidebar Expanded="@sidebarExpanded" style="z-index: 2">
+        <RadzenStack AlignItems="Radzen.AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
+            <RadzenImage Path="images/logo.png"  style="width: 48px; height: 48px;" AlternateText="Application logo"></RadzenImage>
+            <RadzenText Text="HardwareManagement" TextStyle="Radzen.Blazor.TextStyle.Subtitle1" class="rz-mb-0" style="color: var(--rz-sidebar-color);" />
+        </RadzenStack>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="DashBoard" Path="" Icon="dashboard" />
+            <RadzenPanelMenuItem Text="TresosAcgs" Path="tresos-acgs" Icon="list" />
+            <RadzenPanelMenuItem Text="TresosAutoCores" Path="tresos-auto-cores" Icon="list" />
+            <RadzenPanelMenuItem Text="TresosSafetyOs" Path="tresos-safety-os" Icon="list" />
+            <RadzenPanelMenuItem Text="MicroControllers" Path="micro-controllers" Icon="list" />
+            <RadzenPanelMenuItem Text="MicroControllerDerivatives" Path="micro-controller-derivatives" Icon="list" />
+            <RadzenPanelMenuItem Text="MicroControllerSubDerivatives" Path="micro-controller-sub-derivatives" Icon="list" />
+            <RadzenPanelMenuItem Text="SiliconVendors" Path="silicon-vendors" Icon="list" />
+            <RadzenPanelMenuItem Text="Standard & Non StandardQuote" target="_blank" Path="https://avalon-staging.ebgroup.elektrobit.com:4430/login" Icon="list" />
+            <RadzenPanelMenuItem Text="Reports" Icon="all_inclusive">
+                <RadzenPanelMenuItem Text="PowerBI Reports" target="_blank" Path="https://app.powerbi.com/groups/me/reports/71146908-b7b8-458a-ad45-84983435631b/ReportSection9db6bdc496b031a16013?experience=power-bi" Icon="list" />
+            </RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Data Management" Icon="auto_awesome">
+                <RadzenPanelMenuItem Text="AutosarVersions" Path="autosar-versions" Icon="list" />
+                <RadzenPanelMenuItem Text="CompilerVendors" Path="compiler-vendors" Icon="list" />
+                <RadzenPanelMenuItem Text="CompilerVersions" Path="compiler-versions" Icon="list" />
+                <RadzenPanelMenuItem Text="Architectures" Path="architectures" Icon="list" />
+                <RadzenPanelMenuItem Text="AvailabilityStatuses" Path="availability-statuses" Icon="list" />
+            </RadzenPanelMenuItem>
+
+        </RadzenPanelMenu>
+        <RadzenStack AlignItems="Radzen.AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="HardwareManagement v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+            <RadzenText Text="Optimizers Team" TextStyle="Radzen.Blazor.TextStyle.Caption" class="rz-mb-0" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+            @* <RadzenText Text="Copyright Ⓒ 2024" TextStyle="Radzen.Blazor.TextStyle.Caption" class="rz-mb-0" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" /> *@
+        </RadzenStack>
+    </RadzenSidebar>
+</RadzenLayout>

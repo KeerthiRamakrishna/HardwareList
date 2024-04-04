@@ -1,0 +1,69 @@
+@page "/tresos-acgs"
+
+<PageTitle>TresosAcgs</PageTitle>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="TresosAcgs" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                    <RadzenSplitButtonItem Text="CSV" Value="csv" />
+                </RadzenSplitButton>
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
+    <RadzenRow>
+      <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@tresosAcgs" LoadData="@Grid0LoadData" Count="@count" TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" RowDoubleClick="@EditRow">
+            <Columns>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="TresosACGID" Title="Tresos A C G I D">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="MicroControllerSubDerivative.MicroControllerSubDerivativesName" Title="Micro Controller Sub Derivative">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="Architecture.ArchitectureName" Title="Architecture">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="AvailabilityStatus.AvailabilityStatusName" Title="Availability Status">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="Autosarversion.AUTOSARVersionName" Title="Autosarversion">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="SiliconVendor.SiliconVendorName" Title="Silicon Vendor">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="MCALVersion" Title="M C A L Version">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="CompilerVendor.CompilerVendorName" Title="Compiler Vendor">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="CompilerVersion.CompilerVersionName" Title="Compiler Version">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="EBtresosBoardSupportPackageMCALavailability" Title="E Btresos Board Support Package M C A Lavailability">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="EBtresosBoardSupportPackageAutoCoreOS" Title="E Btresos Board Support Package Auto Core O S">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="EBtresosBoardSupportPackageSafetyOS" Title="E Btresos Board Support Package Safety O S">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="EBtresosBoardSupportPackageFOTA" Title="E Btresos Board Support Package F O T A">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="SUPPackageforApplicationEssentials" Title="S U P Packagefor Application Essentials">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="SUPPackageforBootloaderEssentials" Title="S U P Packagefor Bootloader Essentials">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="tresosAcg">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, tresosAcg)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+
+        </RadzenDataGrid>
+
+    </RadzenColumn>
+  </RadzenRow>
+</RadzenStack>

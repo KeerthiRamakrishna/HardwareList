@@ -1,0 +1,48 @@
+@page "/add-micro-controller"
+
+<PageTitle>Add MicroController</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save MicroController</RadzenAlert>
+        <RadzenTemplateForm TItem="HardwareManagement.Server.Models.FocusDB.MicroController" Data="@microController" Visible="@(microController != null && canEdit)" Submit="@FormSubmit">
+          <RadzenStack>
+            <RadzenFormField Text="Hardware Name" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@microController.HardwareName" Name="HardwareName" />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Silicon Vendor" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@siliconVendorsForSiliconVendorID" TextProperty="SiliconVendorName" ValueProperty="SiliconVendorID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@microController.SiliconVendorID" Name="SiliconVendorID"
+                        SelectedValue=@siliconVendorsForSiliconVendorIDValue Count=@siliconVendorsForSiliconVendorIDCount LoadData=@siliconVendorsForSiliconVendorIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Micro Controller Derivative" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@microControllerDerivativesForMicroControllerDerivativesID" TextProperty="MicroControllerDerivativesName" ValueProperty="MicroControllerDerivativesID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@microController.MicroControllerDerivativesID" Name="MicroControllerDerivativesID"
+                        SelectedValue=@microControllerDerivativesForMicroControllerDerivativesIDValue Count=@microControllerDerivativesForMicroControllerDerivativesIDCount LoadData=@microControllerDerivativesForMicroControllerDerivativesIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Micro Controller Sub Derivative" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@microControllerSubDerivativesForMicroControllerSubDerivativesID" TextProperty="MicroControllerSubDerivativesName" ValueProperty="MicroControllerSubDerivativesID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@microController.MicroControllerSubDerivativesID" Name="MicroControllerSubDerivativesID"
+                        SelectedValue=@microControllerSubDerivativesForMicroControllerSubDerivativesIDValue Count=@microControllerSubDerivativesForMicroControllerSubDerivativesIDCount LoadData=@microControllerSubDerivativesForMicroControllerSubDerivativesIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Availability Status" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDownDataGrid Data="@availabilityStatusesForAvailabilityStatusID" TextProperty="AvailabilityStatusName" ValueProperty="AvailabilityStatusID" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@microController.AvailabilityStatusID" Name="AvailabilityStatusID"
+                        SelectedValue=@availabilityStatusesForAvailabilityStatusIDValue Count=@availabilityStatusesForAvailabilityStatusIDCount LoadData=@availabilityStatusesForAvailabilityStatusIDLoadData />
+              </ChildContent>
+            </RadzenFormField>
+          </RadzenStack>
+          <RadzenStack style="margin-top:1rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+          </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+
