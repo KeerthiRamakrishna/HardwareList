@@ -22,7 +22,7 @@ namespace HardwareManagement.Server.Models.FocusDB
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int HardwareId { get; set; }
+        public int MicroControllersID { get; set; }
 
         [ConcurrencyCheck]
         public string HardwareName { get; set; }
@@ -35,6 +35,9 @@ namespace HardwareManagement.Server.Models.FocusDB
         [ConcurrencyCheck]
         public int? MicroControllerDerivativesID { get; set; }
 
+        [ConcurrencyCheck]
+        public int? ZentureMicroControllerDerivativesID { get; set; }
+
         public MicroControllerDerivative MicroControllerDerivative { get; set; }
 
         [ConcurrencyCheck]
@@ -46,6 +49,8 @@ namespace HardwareManagement.Server.Models.FocusDB
         public int? AvailabilityStatusID { get; set; }
 
         public AvailabilityStatus AvailabilityStatus { get; set; }
+
+        public ICollection<TresosAcg> TresosAcgs { get; set; }
 
     }
 }

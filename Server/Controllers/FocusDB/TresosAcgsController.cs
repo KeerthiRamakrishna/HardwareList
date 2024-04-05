@@ -33,6 +33,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
         public IEnumerable<HardwareManagement.Server.Models.FocusDB.TresosAcg> GetTresosAcgs()
         {
             var items = this.context.TresosAcgs.AsQueryable<HardwareManagement.Server.Models.FocusDB.TresosAcg>();
+            //var items = this.context.TresosAcgs.AsQueryable<HardwareManagement.Server.Models.FocusDB.TresosAcg>();
             this.OnTresosAcgsRead(ref items);
 
             return items;

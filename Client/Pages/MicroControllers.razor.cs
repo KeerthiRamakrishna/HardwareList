@@ -71,7 +71,7 @@ namespace HardwareManagement.Client.Pages
 
         protected async Task EditRow(DataGridRowMouseEventArgs<HardwareManagement.Server.Models.FocusDB.MicroController> args)
         {
-            await DialogService.OpenAsync<EditMicroController>("Edit MicroController", new Dictionary<string, object> { {"HardwareId", args.Data.HardwareId} });
+            await DialogService.OpenAsync<EditMicroController>("Edit MicroController", new Dictionary<string, object> { {"HardwareId", args.Data.MicroControllersID } });
             await grid0.Reload();
         }
 
@@ -81,7 +81,7 @@ namespace HardwareManagement.Client.Pages
             {
                 if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
                 {
-                    var deleteResult = await FocusDBService.DeleteMicroController(hardwareId:microController.HardwareId);
+                    var deleteResult = await FocusDBService.DeleteMicroController(hardwareId:microController.MicroControllersID);
 
                     if (deleteResult != null)
                     {

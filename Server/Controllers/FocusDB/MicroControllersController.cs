@@ -46,7 +46,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
         [HttpGet("/odata/FocusDB/MicroControllers(HardwareId={HardwareId})")]
         public SingleResult<HardwareManagement.Server.Models.FocusDB.MicroController> GetMicroController(int key)
         {
-            var items = this.context.MicroControllers.Where(i => i.HardwareId == key);
+            var items = this.context.MicroControllers.Where(i => i.MicroControllersID == key);
             var result = SingleResult.Create(items);
 
             OnMicroControllerGet(ref result);
@@ -68,7 +68,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
 
 
                 var items = this.context.MicroControllers
-                    .Where(i => i.HardwareId == key)
+                    .Where(i => i.MicroControllersID == key)
                     .AsQueryable();
 
                 items = Data.EntityPatch.ApplyTo<HardwareManagement.Server.Models.FocusDB.MicroController>(Request, items);
@@ -109,7 +109,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
                 }
 
                 var items = this.context.MicroControllers
-                    .Where(i => i.HardwareId == key)
+                    .Where(i => i.MicroControllersID == key)
                     .AsQueryable();
 
                 items = Data.EntityPatch.ApplyTo<HardwareManagement.Server.Models.FocusDB.MicroController>(Request, items);
@@ -124,7 +124,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
                 this.context.MicroControllers.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.MicroControllers.Where(i => i.HardwareId == key);
+                var itemToReturn = this.context.MicroControllers.Where(i => i.MicroControllersID == key);
                 Request.QueryString = Request.QueryString.Add("$expand", "AvailabilityStatus,MicroControllerDerivative,MicroControllerSubDerivative,SiliconVendor");
                 this.OnAfterMicroControllerUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -148,7 +148,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
                 }
 
                 var items = this.context.MicroControllers
-                    .Where(i => i.HardwareId == key)
+                    .Where(i => i.MicroControllersID == key)
                     .AsQueryable();
 
                 items = Data.EntityPatch.ApplyTo<HardwareManagement.Server.Models.FocusDB.MicroController>(Request, items);
@@ -165,7 +165,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
                 this.context.MicroControllers.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.MicroControllers.Where(i => i.HardwareId == key);
+                var itemToReturn = this.context.MicroControllers.Where(i => i.MicroControllersID == key);
                 Request.QueryString = Request.QueryString.Add("$expand", "AvailabilityStatus,MicroControllerDerivative,MicroControllerSubDerivative,SiliconVendor");
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -199,7 +199,7 @@ namespace HardwareManagement.Server.Controllers.FocusDB
                 this.context.MicroControllers.Add(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.MicroControllers.Where(i => i.HardwareId == item.HardwareId);
+                var itemToReturn = this.context.MicroControllers.Where(i => i.MicroControllersID == item.MicroControllersID);
 
                 Request.QueryString = Request.QueryString.Add("$expand", "AvailabilityStatus,MicroControllerDerivative,MicroControllerSubDerivative,SiliconVendor");
 

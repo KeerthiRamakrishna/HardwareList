@@ -94,6 +94,12 @@ namespace HardwareManagement.Server.Data
               .HasForeignKey(i => i.SiliconVendorID)
               .HasPrincipalKey(i => i.SiliconVendorID);
 
+            builder.Entity<HardwareManagement.Server.Models.FocusDB.TresosAcg>()
+             .HasOne(i => i.MicroControllers)
+             .WithMany(i => i.TresosAcgs)
+             .HasForeignKey(i => i.MicroControllersID)
+             .HasPrincipalKey(i => i.MicroControllersID);
+
             builder.Entity<HardwareManagement.Server.Models.FocusDB.TresosAutoCore>()
               .HasOne(i => i.Architecture)
               .WithMany(i => i.TresosAutoCores)

@@ -19,12 +19,14 @@
     <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
     <RadzenRow>
       <RadzenColumn SizeMD=12>
-        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            <RadzenDataGrid @ref="grid0" ColumnWidth="200px" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
             Data="@tresosAcgs" LoadData="@Grid0LoadData" Count="@count" TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" RowDoubleClick="@EditRow">
             <Columns>
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="TresosACGID" Title="Tresos A C G I D">
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="MicroControllerSubDerivative.MicroControllerSubDerivativesName" Title="Micro Controller Sub Derivative">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="MicroControllers.HardwareName" Title="Micro Controller">
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="HardwareManagement.Server.Models.FocusDB.TresosAcg" Property="Architecture.ArchitectureName" Title="Architecture">
                 </RadzenDataGridColumn>

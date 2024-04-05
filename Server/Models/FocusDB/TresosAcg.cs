@@ -29,6 +29,7 @@ namespace HardwareManagement.Server.Models.FocusDB
 
         public MicroControllerSubDerivative MicroControllerSubDerivative { get; set; }
 
+
         [ConcurrencyCheck]
         public int? ArchitectureID { get; set; }
 
@@ -59,6 +60,10 @@ namespace HardwareManagement.Server.Models.FocusDB
 
         [ConcurrencyCheck]
         public int? CompilerVersionID { get; set; }
+        
+        [ConcurrencyCheck]
+        public int? MicroControllersID { get; set; }
+        public MicroController MicroControllers { get; set; }
 
         public CompilerVersion CompilerVersion { get; set; }
 

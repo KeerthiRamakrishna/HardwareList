@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Radzen;
 
 using HardwareManagement.Server.Data;
+using HardwareManagement.Client.Pages;
 
 namespace HardwareManagement.Server
 {
@@ -1095,11 +1096,11 @@ namespace HardwareManagement.Server
         partial void OnGetMicroControllerByHardwareId(ref IQueryable<HardwareManagement.Server.Models.FocusDB.MicroController> items);
 
 
-        public async Task<HardwareManagement.Server.Models.FocusDB.MicroController> GetMicroControllerByHardwareId(int hardwareid)
+        public async Task<HardwareManagement.Server.Models.FocusDB.MicroController> GetMicroControllerByHardwareId(int microControllersID)
         {
             var items = Context.MicroControllers
-                              .AsNoTracking()
-                              .Where(i => i.HardwareId == hardwareid);
+            .AsNoTracking()
+                              .Where(i => i.MicroControllersID == microControllersID);
 
             items = items.Include(i => i.AvailabilityStatus);
             items = items.Include(i => i.MicroControllerDerivative);
@@ -1123,7 +1124,7 @@ namespace HardwareManagement.Server
             OnMicroControllerCreated(microcontroller);
 
             var existingItem = Context.MicroControllers
-                              .Where(i => i.HardwareId == microcontroller.HardwareId)
+                              .Where(i => i.MicroControllersID == microcontroller.MicroControllersID)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -1162,12 +1163,12 @@ namespace HardwareManagement.Server
         partial void OnMicroControllerUpdated(HardwareManagement.Server.Models.FocusDB.MicroController item);
         partial void OnAfterMicroControllerUpdated(HardwareManagement.Server.Models.FocusDB.MicroController item);
 
-        public async Task<HardwareManagement.Server.Models.FocusDB.MicroController> UpdateMicroController(int hardwareid, HardwareManagement.Server.Models.FocusDB.MicroController microcontroller)
+        public async Task<HardwareManagement.Server.Models.FocusDB.MicroController> UpdateMicroController(int microControllersID, HardwareManagement.Server.Models.FocusDB.MicroController microcontroller)
         {
             OnMicroControllerUpdated(microcontroller);
 
             var itemToUpdate = Context.MicroControllers
-                              .Where(i => i.HardwareId == microcontroller.HardwareId)
+                              .Where(i => i.MicroControllersID == microcontroller.MicroControllersID)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -1189,10 +1190,10 @@ namespace HardwareManagement.Server
         partial void OnMicroControllerDeleted(HardwareManagement.Server.Models.FocusDB.MicroController item);
         partial void OnAfterMicroControllerDeleted(HardwareManagement.Server.Models.FocusDB.MicroController item);
 
-        public async Task<HardwareManagement.Server.Models.FocusDB.MicroController> DeleteMicroController(int hardwareid)
+        public async Task<HardwareManagement.Server.Models.FocusDB.MicroController> DeleteMicroController(int microControllersID)
         {
             var itemToDelete = Context.MicroControllers
-                              .Where(i => i.HardwareId == hardwareid)
+                              .Where(i => i.MicroControllersID == microControllersID)
                               .FirstOrDefault();
 
             if (itemToDelete == null)

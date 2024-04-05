@@ -28,6 +28,7 @@ namespace HardwareManagement.Server.Models.FocusDB
         public string MicroControllerSubDerivativesName { get; set; }
 
         public ICollection<MicroController> MicroControllers { get; set; }
+        //public MicroController MicroControllers { get; set; }
 
         public ICollection<TresosAcg> TresosAcgs { get; set; }
 

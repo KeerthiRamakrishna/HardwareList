@@ -3,6 +3,8 @@ using HardwareManagement.Server.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
@@ -36,6 +38,14 @@ builder.Services.AddControllers().AddOData(opt =>
     oDataBuilderFocusDB.EntitySet<HardwareManagement.Server.Models.FocusDB.TresosSafetyO>("TresosSafetyOs");
     opt.AddRouteComponents("odata/FocusDB", oDataBuilderFocusDB.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
+
+//builder.Services.AddControllersWithViews()
+//    .AddNewtonsoftJson(options =>
+//    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+//);
+builder.Services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
 builder.Services.AddScoped<HardwareManagement.Client.FocusDBService>();
 var app = builder.Build();
 app.MapDefaultEndpoints();
